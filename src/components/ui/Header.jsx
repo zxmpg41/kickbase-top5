@@ -1,6 +1,7 @@
 import { getLeague } from '@/service/kickbase'
 import { useEffect, useState } from 'react'
 import { ModeToggle } from '.'
+import Countdown from './Countdown'
 
 export const Header = () => {
   const [league, setLeague] = useState()
@@ -22,7 +23,10 @@ export const Header = () => {
         <img src={league?.logo} alt="logo" className="w-10 h-10 rounded-full" />
         <h1 className="text-2xl font-bold">{league?.name}</h1>
       </div>
-      <ModeToggle />
+      <div className="flex items-center space-x-2">
+        <Countdown />
+        <ModeToggle />
+      </div>
     </header>
   )
 }

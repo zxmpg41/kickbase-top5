@@ -5,16 +5,23 @@ import { getLivePoints } from './service/kickbase'
 function App() {
   const [data, setData] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      return await getLivePoints()
+  const updateData = async () => {
+    const resp = await getLivePoints()
+    if (resp) {
+      setData(resp)
     }
+  }
 
-    fetchData().then((resp) => {
-      if (resp) {
-        setData(resp)
-      }
-    })
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      updateData()
+    }, 30 * 1000)
+
+    return () => clearInterval(timer)
   }, [])
 
   return (
