@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'kickbase-top5',
+  base: '/kickbase-top5',
   plugins: [react()],
   resolve: {
     alias: {
