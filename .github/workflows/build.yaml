@@ -24,6 +24,8 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build frontend
+        env:
+          VITE_TOKEN: ${{ env.VITE_TOKEN }}
         run: bun run build
 
       - name: Deploy to GitHub Pages
