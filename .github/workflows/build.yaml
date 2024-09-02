@@ -27,7 +27,7 @@ jobs:
         run: bun run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          publish_dir: dist
-          github_token: ${{ secrets.TOKEN }}
+          branch: gh-pages
+          folder: dist
