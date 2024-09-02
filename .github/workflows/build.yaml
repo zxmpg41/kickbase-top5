@@ -2,6 +2,9 @@ name: Get token and build UI
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   # schedule:
   #   - cron: '0 0 1 * *'
 
@@ -17,15 +20,18 @@ jobs:
         uses: oven-sh/setup-bun@v1.2.0
 
       - name: Get token
+        id: get_token
         run: |
-          echo "VITE_TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{\"email\":\"${{ secrets.KB_EMAIL }}\",\"password\":\"${{ secrets.KB_PW }}\",\"ext\":false}' https://api.kickbase.com/user/login | jq -r '.token')" >> $GITHUB_ENV
+          TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{"email":"${{ secrets.KB_EMAIL }}","password":"${{ secrets.KB_PW }}","ext":false}' https://api.kickbase.com/user/login | jq -r '.token')
+          echo "VITE_TOKEN=$TOKEN" >> $GITHUB_ENV
+          echo "::set-output name=token::$TOKEN"
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Build frontend
         env:
-          VITE_TOKEN: ${{ env.VITE_TOKEN }}
+          VITE_TOKEN: ${{ steps.get_token.outputs.token }}
         run: bun run build
 
       - name: Deploy to GitHub Pages

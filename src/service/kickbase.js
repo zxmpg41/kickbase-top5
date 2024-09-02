@@ -47,19 +47,3 @@ export const getLeague = async () => {
     logo: data.leagues[0].ci,
   }
 }
-
-// export const login = async (email, password) => {
-//   const response = await fetch('https://api.kickbase.com/user/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       email: email,
-//       password: password,
-//       ext: false,
-//     }),
-//   })
-//   const loginData = await response.json()
-//   return loginData.token
-// }
