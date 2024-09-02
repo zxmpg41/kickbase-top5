@@ -24,8 +24,8 @@ jobs:
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              email: ${{ secrets.kb_email }},
-              password: ${{ secrets.kb_pw }},,
+              email: ${{ secrets.KB_EMAIL }},
+              password: ${{ secrets.KB_PW }},
               ext: false,
             }),
           })
