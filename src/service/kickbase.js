@@ -1,10 +1,8 @@
 export const getLivePoints = async () => {
-  const token = import.meta.env.VITE_TOKEN
-
   const response = await fetch(
     'https://api.kickbase.com/leagues/2114006/live',
     {
-      headers: { authorization: 'Bearer ' + token },
+      headers: { authorization: 'Bearer ' + import.meta.env.VITE_TOKEN },
     }
   )
   const data = await response.json()
@@ -13,7 +11,7 @@ export const getLivePoints = async () => {
 }
 
 const formatData = (data) => {
-  return data.map((user) => {
+  const formatedData = data.map((user) => {
     return {
       id: user.id,
       name: user.n,
@@ -29,22 +27,26 @@ const formatData = (data) => {
       }),
     }
   })
+
+  formatedData.forEach((user) => {
+    user.players.sort((a, b) => b.points - a.points)
+  })
+
+  return formatedData
 }
 
-// [
-//     {
-//         name: 'Kevin',
-//         livePoints: 0,
-//         totalPoints: 0,
-//         players: [
-//             {
-//                 id: 1683,
-//                 name: 'Florian Müller',
-//                 points: 0
-//             }
-//         ]
-//     }
-// ]
+export const getLeague = async () => {
+  const response = await fetch('https://api.kickbase.com/leagues', {
+    headers: { authorization: 'Bearer ' + import.meta.env.VITE_TOKEN },
+  })
+  const data = await response.json()
+
+  return {
+    id: data.leagues[0].id,
+    name: data.leagues[0].name,
+    logo: data.leagues[0].ci,
+  }
+}
 
 // export const login = async (email, password) => {
 //   const response = await fetch('https://api.kickbase.com/user/login', {

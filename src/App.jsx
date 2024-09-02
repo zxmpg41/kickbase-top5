@@ -1,12 +1,5 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui'
 import { useEffect, useState } from 'react'
+import { Header, UserItem } from './components/ui'
 import { getLivePoints } from './service/kickbase'
 
 function App() {
@@ -25,29 +18,15 @@ function App() {
   }, [])
 
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Rank</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Live Points</TableHead>
-            <TableHead>Total Points</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((user, i) => (
-            <TableRow key={user.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.livePoints}</TableCell>
-              <TableCell>{user.totalPoints}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
+    <div className="p-4">
+      <Header />
+
+      <div className="space-y-2">
+        {data.map((user, i) => (
+          <UserItem key={user.id} userData={user} rank={i + 1} />
+        ))}
+      </div>
+    </div>
   )
 }
 
