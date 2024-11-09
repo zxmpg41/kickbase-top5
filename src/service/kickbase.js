@@ -1,6 +1,6 @@
 export const getLivePoints = async () => {
   const response = await fetch(
-    'https://api.kickbase.com/leagues/2114006/live',
+    'https://api.kickbase.com/v4/leagues/2114006/live',
     {
       headers: { authorization: 'Bearer ' + import.meta.env.VITE_TOKEN },
     }
@@ -36,14 +36,17 @@ const formatData = (data) => {
 }
 
 export const getLeague = async () => {
-  const response = await fetch('https://api.kickbase.com/leagues', {
-    headers: { authorization: 'Bearer ' + import.meta.env.VITE_TOKEN },
-  })
+  const response = await fetch(
+    'https://api.kickbase.com/v4/leagues/selection',
+    {
+      headers: { authorization: 'Bearer ' + import.meta.env.VITE_TOKEN },
+    }
+  )
   const data = await response.json()
 
   return {
-    id: data.leagues[0].id,
-    name: data.leagues[0].name,
-    logo: data.leagues[0].ci,
+    id: data.it[0].i,
+    name: data.it[0].n,
+    logo: data.it[0].f,
   }
 }
