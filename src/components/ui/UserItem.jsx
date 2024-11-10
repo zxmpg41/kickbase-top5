@@ -14,6 +14,9 @@ export const UserItem = ({ userData, rank }) => {
   const [data, setData] = useState([])
 
   const updateData = async () => {
+    if (userData.id === undefined) {
+      return
+    }
     const resp = await getPlayerPoints(userData.id)
     if (resp) {
       setData(resp)
