@@ -22,9 +22,16 @@ jobs:
       - name: Get token
         id: get_token
         run: |
-          TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}"}' https://api.kickbase.com/v4/user/login | jq -r '.token')
+          RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}"}' https://api.kickbase.com/v4/user/login)
+          TOKEN=$(echo "$RESPONSE" | jq -r '.token')
+
+          if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
+            echo "Error: Token could not be retrieved."
+            exit 1
+          fi
+
           echo "VITE_TOKEN=$TOKEN" >> $GITHUB_ENV
-          echo "::set-output name=token::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
