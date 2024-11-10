@@ -23,7 +23,7 @@ jobs:
         id: get_token
         run: |
           RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}","ext":true}' https://api.kickbase.com/v4/user/login)
-          TOKEN=$(echo "$RESPONSE" | jq -r '.token')
+          TOKEN=$(echo "$RESPONSE" | jq -r '.tkn')
 
           if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
             echo "Error: Token could not be retrieved."
