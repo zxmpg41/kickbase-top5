@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Header, UserItem } from './components/ui'
-import { getLivePoints } from './service/kickbase'
+import { getRanks } from './service/kickbase'
 
 function App() {
   const [data, setData] = useState([])
 
   const updateData = async () => {
-    const resp = await getLivePoints()
+    const resp = await getRanks()
     if (resp) {
       setData(resp)
     }

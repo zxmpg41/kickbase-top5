@@ -7,8 +7,31 @@ import {
   Card,
   PlayerTable,
 } from '.'
+import { useEffect, useState } from 'react'
+import { getPlayerPoints } from '@/service/kickbase'
 
 export const UserItem = ({ userData, rank }) => {
+  const [data, setData] = useState([])
+
+  const updateData = async () => {
+    const resp = await getPlayerPoints(userData.id)
+    if (resp) {
+      setData(resp)
+    }
+  }
+
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      updateData()
+    }, 30 * 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <Card className="pr-4">
       <Accordion collapsible className="w-full">
@@ -32,7 +55,7 @@ export const UserItem = ({ userData, rank }) => {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-4">
-            <PlayerTable players={userData.players} />
+            <PlayerTable players={data} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
