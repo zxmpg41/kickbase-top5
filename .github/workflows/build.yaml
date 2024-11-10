@@ -22,7 +22,7 @@ jobs:
       - name: Get token
         id: get_token
         run: |
-          RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW,"ext":true }}"}' https://api.kickbase.com/v4/user/login)
+          RESPONSE=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}","ext":true}' https://api.kickbase.com/v4/user/login)
           TOKEN=$(echo "$RESPONSE" | jq -r '.token')
 
           if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
