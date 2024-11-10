@@ -22,7 +22,7 @@ jobs:
       - name: Get token
         id: get_token
         run: |
-          TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}","ext":false}' https://api.kickbase.com/v4/user/login | jq -r '.token')
+          TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{"em":"${{ secrets.KB_EMAIL }}","pass":"${{ secrets.KB_PW }}"}' https://api.kickbase.com/v4/user/login | jq -r '.token')
           echo "VITE_TOKEN=$TOKEN" >> $GITHUB_ENV
           echo "::set-output name=token::$TOKEN"
 
