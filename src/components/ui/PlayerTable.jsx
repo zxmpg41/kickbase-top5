@@ -6,9 +6,36 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui'
+import { getPlayerPoints } from '@/service/kickbase'
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
+import TeamIcon from './teamicon'
 
-export const PlayerTable = ({ players }) => {
+export const PlayerTable = ({ userId }) => {
+  const [data, setData] = useState([])
+
+  const updateData = async () => {
+    if (userId === undefined) {
+      return
+    }
+    const resp = await getPlayerPoints(userId)
+    if (resp) {
+      setData(resp)
+    }
+  }
+
+  useEffect(() => {
+    updateData()
+  }, []) // eslint-disable-line
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      updateData()
+    }, 30 * 1000)
+
+    return () => clearInterval(timer)
+  }, []) // eslint-disable-line
+
   return (
     <Table>
       <TableHeader>
@@ -19,17 +46,24 @@ export const PlayerTable = ({ players }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players.length > 0 &&
-          players.map((player, i) => (
+        {data.length > 0 &&
+          data.map((player, i) => (
             <TableRow
-              key={player.id}
+              key={i}
               className={
                 i < 5 &&
                 'bg-rose-100 hover:bg-rose-200 dark:bg-rose-500 dark:hover:bg-rose-400'
               }
             >
               <TableCell>{i + 1}</TableCell>
-              <TableCell>{player.name}</TableCell>
+              <TableCell>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <TeamIcon teamId={player.teamId} />
+                  {player.name}
+                </div>
+              </TableCell>
               <TableCell>{player.points}</TableCell>
             </TableRow>
           ))}
@@ -39,12 +73,5 @@ export const PlayerTable = ({ players }) => {
 }
 
 PlayerTable.propTypes = {
-  players: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      points: PropTypes.number,
-      teamId: PropTypes.number,
-    })
-  ).isRequired,
+  userId: PropTypes.string.isRequired,
 }
