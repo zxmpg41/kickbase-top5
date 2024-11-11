@@ -9,7 +9,7 @@ import {
 import { getPlayerPoints } from '@/service/kickbase'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import TeamIcon from './teamicon'
+import TeamIcon from './TeamIcon'
 
 export const PlayerTable = ({ userId }) => {
   const [data, setData] = useState([])
