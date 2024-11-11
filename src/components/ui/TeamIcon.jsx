@@ -13,7 +13,7 @@ const TeamIcon = ({ teamId }) => {
   }, [teamId])
 
   return imagePath ? (
-    <img src={imagePath} width={26} alt={`Team ${teamId}`} />
+    <img src={imagePath} width={24} alt={`Team ${teamId}`} />
   ) : null
 }
 
