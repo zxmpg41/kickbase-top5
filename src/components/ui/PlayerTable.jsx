@@ -36,6 +36,8 @@ export const PlayerTable = ({ userId }) => {
     return () => clearInterval(timer)
   }, []) // eslint-disable-line
 
+  console.log(data)
+
   return (
     <Table>
       <TableHeader>
@@ -50,10 +52,12 @@ export const PlayerTable = ({ userId }) => {
           data.map((player, i) => (
             <TableRow
               key={i}
-              className={
-                i < 5 &&
-                'bg-rose-100 hover:bg-rose-200 dark:bg-rose-500 dark:hover:bg-rose-400'
-              }
+              className={[
+                i < 3 &&
+                  'bg-rose-100 hover:bg-rose-200 dark:bg-rose-500 dark:hover:bg-rose-400',
+                i === 3 &&
+                  'bg-orange-100 hover:bg-orange-200 dark:bg-orange-500 dark:hover:bg-orange-400',
+              ]}
             >
               <TableCell>{i + 1}</TableCell>
               <TableCell>
