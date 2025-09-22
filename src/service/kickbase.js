@@ -63,7 +63,7 @@ export const getPlayerPoints = async (managerId) => {
   )
   const data = await response.json()
   const players = data.lp.map((ele) => {
-    return { id: ele.id, name: ele.n, points: ele.p || 0, teamId: ele.tid }
+    return { id: ele.i, name: ele.n, points: ele.p || 0, teamId: ele.tid }
   })
   players.sort((a, b) => b.points - a.points)
   return players

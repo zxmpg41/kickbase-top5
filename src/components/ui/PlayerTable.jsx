@@ -10,9 +10,17 @@ import { getPlayerPoints } from '@/service/kickbase'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import TeamIcon from './TeamIcon'
+import KEEPERS from '@/service/keepers.json'
 
 export const PlayerTable = ({ userId }) => {
   const [data, setData] = useState([])
+  const [isKeeperTop3, setIsKeeperTop3] = useState(false)
+
+  const getKeeperInTop3 = (players) => {
+    return players
+      .slice(0, 3)
+      .some((player) => KEEPERS.some((keeper) => keeper.id === player.id))
+  }
 
   const updateData = async () => {
     if (userId === undefined) {
@@ -21,6 +29,7 @@ export const PlayerTable = ({ userId }) => {
     const resp = await getPlayerPoints(userId)
     if (resp) {
       setData(resp)
+      setIsKeeperTop3(getKeeperInTop3(resp))
     }
   }
 
@@ -56,6 +65,7 @@ export const PlayerTable = ({ userId }) => {
                 i < 3 &&
                   'bg-rose-100 hover:bg-rose-200 dark:bg-rose-500 dark:hover:bg-rose-400',
                 i === 3 &&
+                  isKeeperTop3 &&
                   'bg-orange-100 hover:bg-orange-200 dark:bg-orange-500 dark:hover:bg-orange-400',
               ]}
             >
